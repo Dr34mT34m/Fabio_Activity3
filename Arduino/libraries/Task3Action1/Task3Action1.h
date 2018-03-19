@@ -18,7 +18,7 @@ class action{
     	int off_pwm;
     	boolean motorenabled;
         boolean directionenabled;
-		boolean motor_on;
+		///boolean motor_on;
         int current_direction;  //stopped = 0, forwards = 1, reverse = 2
     
 		
