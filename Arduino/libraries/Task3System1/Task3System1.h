@@ -18,20 +18,19 @@
 //The following library implements the full system of the project.
 
 class motorsystem{
-	int save_motorpwmpin;
-	int save_motordirectionpin;
-	int save_dir;
-    int save_dist;
-    
-    int stationaryCount; 
-    int opposite_dir;
-	
+
     protected:
         sense sensing_unit;
         action action_unit;
         control control_unit;
         boolean enabled;
+        int save_motorpwmpin;
+        int save_motordirectionpin;
+        int save_dir;
+        int save_dist;
     
+        int stationaryCount;
+        int opposite_dir;
     
         void set_enabled(){                         //sets the enabled status of the combined components in the system
             enabled = action_unit.AreAllEnabled();
