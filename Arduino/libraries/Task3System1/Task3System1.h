@@ -22,6 +22,8 @@ class motorsystem{
 	int save_motordirectionpin;
 	int save_dir;
     int save_dist;
+    
+    int stationaryCount; 
 	
     protected:
         sense sensing_unit;
@@ -35,6 +37,7 @@ class motorsystem{
         }
     public:
         motorsystem(){      //default constructor
+            stationaryCount =0;
             set_enabled();
         }
     
@@ -66,16 +69,20 @@ class motorsystem{
                 action_unit.operate_motor(control_unit.return_PID_output(sensing_unit.return_ref_speed(), sensing_unit.return_current_speed()));
             }
             
-            //speed control
+            //distance control
             if(sensing_unit.rotation_counter.checkDistanceMet(save_dist) ==true){
             	Serial.print("speedy");
             	
             	if(save_dir==1){
-            		setup_action(save_motorpwmpin, save_motordirectionpin, 2,save_dist);
-            	}else{
-                    setup_action(save_motorpwmpin, save_motordirectionpin, 1,save_dist);
+            		prev_dir = save_dir;
+            		setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_dist);
+            	}else if (save_dir==2){
+            		prev_dir = save_dir;
+                    setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_dist);
                     
             	}
+            	
+            	
             	sensing_unit.rotation_counter.reset_distancecount();
             }
         }
