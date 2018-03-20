@@ -166,7 +166,7 @@ public:
     }
     
     int convertDistanceToMag(int distance){
-        return whatever
+        //return whatever
     }
 };
 
