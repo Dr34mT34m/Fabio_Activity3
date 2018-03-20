@@ -62,10 +62,17 @@ void setup() {
 }
 
 void loop() {
-  if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){
-    Right_Wheel.execute_system_task();
+  /*if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){   //operates car in straight line at set speed
+    Right_Wheel.execute_system_task_straight_line();
     Serial.print(",");
-    Left_Wheel.execute_system_task(); 
+    Left_Wheel.execute_system_task_straight_line(); 
+    Serial.println("");
+  }*/
+
+  if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){     //drives car forward for set distance, stops then reverses for set distance
+    Right_Wheel.execute_system_task_distance_return();
+    Serial.print(",");
+    Left_Wheel.execute_system_task_distance_return(); 
     Serial.println("");
   }
 }

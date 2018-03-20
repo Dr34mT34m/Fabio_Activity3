@@ -18,6 +18,7 @@
 //The following library implements the full system of the project.
 
 class motorsystem{
+<<<<<<< HEAD
 	int save_motorpwmpin;
 	int save_motordirectionpin;
 	int save_dir;
@@ -26,12 +27,21 @@ class motorsystem{
     int stationaryCount; 
     int opposite_dir;
 	
+=======
+
+>>>>>>> 21fe748baf530fd1942eef7cb24c529325c7d3e7
     protected:
         sense sensing_unit;
         action action_unit;
         control control_unit;
         boolean enabled;
+        int save_motorpwmpin;
+        int save_motordirectionpin;
+        int save_dir;
+        int save_dist;
     
+        int stationaryCount;
+        int opposite_dir;
     
         void set_enabled(){                         //sets the enabled status of the combined components in the system
             enabled = action_unit.AreAllEnabled();
@@ -65,7 +75,13 @@ class motorsystem{
         }
     
     
-        void execute_system_task(){    //moves car forward for set distance, pauses then returns
+        void execute_system_task_straight_line(){    //moves car in a straight line
+            if(control_unit.isTimeToTakeMeasurementAndUpdate()){
+                action_unit.operate_motor(control_unit.return_PID_output(sensing_unit.return_ref_speed(), sensing_unit.return_current_speed()));
+        }
+    
+    
+        void execute_system_task_distance_return(){    //moves car forward for set distance, pauses then returns
             if(control_unit.isTimeToTakeMeasurementAndUpdate()){
                 action_unit.operate_motor(control_unit.return_PID_output(sensing_unit.return_ref_speed(), sensing_unit.return_current_speed()));
             }
