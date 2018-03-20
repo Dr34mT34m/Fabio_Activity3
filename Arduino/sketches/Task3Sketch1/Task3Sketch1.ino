@@ -10,8 +10,6 @@ motorsystem Right_Wheel, Left_Wheel;
 
 void setup() {
 
-  int distance = 1000;
-
   //Gain values from previous task for reference
   //double ref_kp = 1;     
   //double ref_ki = 0.4;   
@@ -31,9 +29,10 @@ void setup() {
   //int max_rpm_Right = 6000;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
+  int Magnets_passed_Right = 1000;  //used to determine distance
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
-  Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distance);
+  Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, Magnets_passed_Right);
   Right_Wheel.setup_control(check_interval_Right, ref_kp_Right, ref_ki_Right, ref_kd_Right, ref_control_interval_time_Right/*, max_rpm_Right*/);
 
 
@@ -49,10 +48,11 @@ void setup() {
   int ref_speed_Left = 300;
   //int max_rpm_Left = 6000;
   int dirLeft = FORWARDS; 
-  int magnetsLeft = 49;  
+  int magnetsLeft = 49;
+  int Magnets_passed_Left = 1000;  //used to determine distance
   
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
-  Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distance);
+  Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, Magnets_passed_Left);
   Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left/*, max_rpm_Left*/);
   
 
