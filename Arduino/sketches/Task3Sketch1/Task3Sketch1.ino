@@ -10,7 +10,7 @@ motorsystem Right_Wheel, Left_Wheel;
 
 void setup() {
 
-  
+  int distance = 1000;
 
   //Gain values from previous task for reference
   //double ref_kp = 1;     
@@ -33,7 +33,7 @@ void setup() {
   int magnetsRight = 49;
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
-  Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight);
+  Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distance);
   Right_Wheel.setup_control(check_interval_Right, ref_kp_Right, ref_ki_Right, ref_kd_Right, ref_control_interval_time_Right/*, max_rpm_Right*/);
 
 
@@ -52,7 +52,7 @@ void setup() {
   int magnetsLeft = 49;  
   
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
-  Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft);
+  Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distance);
   Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left/*, max_rpm_Left*/);
   
 
@@ -65,7 +65,7 @@ void loop() {
   if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){
     Right_Wheel.execute_system_task();
     Serial.print(",");
-    Left_Wheel.execute_system_task(); 
+    //Left_Wheel.execute_system_task(); 
     Serial.println("");
   }
 }

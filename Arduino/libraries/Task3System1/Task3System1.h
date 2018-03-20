@@ -21,6 +21,7 @@ class motorsystem{
 	int save_motorpwmpin;
 	int save_motordirectionpin;
 	int save_dir;
+    int save_dist;
 	
     protected:
         sense sensing_unit;
@@ -43,11 +44,12 @@ class motorsystem{
         }
     
     
-        void setup_action(int motorpwmpin, int motordirectionpin, int dir){  //set up of action unit
+        void setup_action(int motorpwmpin, int motordirectionpin, int dir, int dist){  //set up of action unit
         	save_motorpwmpin = motorpwmpin;
         	save_motordirectionpin = motordirectionpin;
         	save_dir = dir;
-        
+            save_dist = dist;
+            
             action_unit.setup_motor(motorpwmpin);
             action_unit.setup_direction(motordirectionpin, dir);
             set_enabled();
@@ -65,13 +67,14 @@ class motorsystem{
             }
             
             //speed control
-            if(sensing_unit.rotation_counter.checkDistanceMet(1000) ==true){
+            if(sensing_unit.rotation_counter.checkDistanceMet(save_dist) ==true){
             	Serial.print("speedy");
             	
             	if(save_dir==1){
-            		setup_action(save_motorpwmpin, save_motordirectionpin, 2);
+            		setup_action(save_motorpwmpin, save_motordirectionpin, 2,save_dist);
             	}else{
-            		setup_action(save_motorpwmpin, save_motordirectionpin, 1);
+                    setup_action(save_motorpwmpin, save_motordirectionpin, 1,save_dist);
+                    
             	}
             	sensing_unit.rotation_counter.reset_distancecount();
             }
