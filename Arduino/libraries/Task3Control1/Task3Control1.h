@@ -108,6 +108,10 @@ class control{
             return PID_controller.ComputePID_output(mapped_target_speed, mapped_current_speed);*/
             return PID_controller.ComputePID_output(target_speed, current_speed);
         }
+        
+        void resetPID(){ //function to reset the PID controller
+        	PID_controller.reset_pidcontrol();
+        }
     
 };
 #endif

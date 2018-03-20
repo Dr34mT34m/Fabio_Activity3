@@ -24,6 +24,7 @@ class motorsystem{
     int save_dist;
     
     int stationaryCount; 
+    int opposite_dir;
 	
     protected:
         sense sensing_unit;
@@ -64,26 +65,39 @@ class motorsystem{
         }
     
     
-        void execute_system_task(){                                     //carries out continuous system operation (refreshes speed of motor and reads motor speed)
+        void execute_system_task(){    //moves car forward for set distance, pauses then returns
             if(control_unit.isTimeToTakeMeasurementAndUpdate()){
                 action_unit.operate_motor(control_unit.return_PID_output(sensing_unit.return_ref_speed(), sensing_unit.return_current_speed()));
             }
             
             //distance control
             if(sensing_unit.rotation_counter.checkDistanceMet(save_dist) ==true){
-            	Serial.print("speedy");
             	
             	if(save_dir==1){
-            		prev_dir = save_dir;
+            		opposite_dir = 2;
             		setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_dist);
+            		save_dir =0;
+            		control_unit.resetPID();
             	}else if (save_dir==2){
-            		prev_dir = save_dir;
+            		opposite_dir = 1;
                     setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_dist);
+                    save_dir=0;
+                    control_unit.resetPID();
                     
+            	}else if (save_dir==0){
+					if(stationaryCount ==10){
+						setup_action(save_motorpwmpin, save_motordirectionpin, opposite_dir,save_dist);
+						sensing_unit.rotation_counter.reset_distancecount();
+						stationaryCount =0;
+						control_unit.resetPID();
+						
+					}            	
+            	
+            		stationaryCount++;
             	}
             	
             	
-            	sensing_unit.rotation_counter.reset_distancecount();
+            	
             }
         }
     
