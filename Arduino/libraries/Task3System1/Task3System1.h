@@ -80,14 +80,14 @@ class motorsystem{
             }
         }
     
-    bool isTimeToTakeMeasurement(){
-        if (control_unit.isTimeToTakeMeasurement()){
-            return true;
+        bool isTimeToTakeMeasurement(){
+            if (control_unit.isTimeToTakeMeasurement()){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
-        else{
-            return false;
-        }
-    }
     
 };
                 
