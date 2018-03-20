@@ -20,12 +20,12 @@ void setup() {
   int motorpwmpinRight = 5;      
   int motordirectionpinRight = 7;  
   ArduinoInterruptNames interruptpinRight = 0;
-  double ref_kp_Right = 1.1;   //1, 0.4, 10
+  double ref_kp_Right = 1;   //1, 0.4, 10
   double ref_ki_Right = 0.4;  
   double ref_kd_Right = 10; 
   int ref_control_interval_time_Right = 150; 
   int check_interval_Right = 250;
-  int ref_speed_Right = 300;
+  int ref_speed_Right = 175;
   //int max_rpm_Right = 6000;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
@@ -40,12 +40,12 @@ void setup() {
   int motorpwmpinLeft = 6;
   int motordirectionpinLeft = 8;
   ArduinoInterruptNames interruptpinLeft = 1;
-  double ref_kp_Left = 1;     //1, 0.4, 10
+  double ref_kp_Left = 1.1;     //1, 0.4, 10
   double ref_ki_Left = 0.4;   
   double ref_kd_Left = 10;
   int ref_control_interval_time_Left = 150;
   int check_interval_Left = 250; //300
-  int ref_speed_Left = 300;
+  int ref_speed_Left = 175;
   //int max_rpm_Left = 6000;
   int dirLeft = FORWARDS; 
   int magnetsLeft = 49;
@@ -65,7 +65,7 @@ void loop() {
   if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){
     Right_Wheel.execute_system_task();
     Serial.print(",");
-    //Left_Wheel.execute_system_task(); 
+    Left_Wheel.execute_system_task(); 
     Serial.println("");
   }
 }

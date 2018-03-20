@@ -19,10 +19,11 @@
 
 class sense{
 	protected:
-        
         int ref_speed;                              //motor reference speed (rpm)
 	public:
 		InterruptSpeedMeasure rotation_counter;     //this object counts interrupts to measure speed
+    
+    
 		sense(){                                    //default constructor
             ref_speed = 0;
 		}
