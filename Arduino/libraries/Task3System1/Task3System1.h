@@ -21,7 +21,7 @@ class motorsystem{
 	int save_motorpwmpin;
 	int save_motordirectionpin;
 	int save_dir;
-    int save_dist;
+    int save_mag;
     
     int stationaryCount; 
     int opposite_dir;
@@ -52,7 +52,7 @@ class motorsystem{
         	save_motorpwmpin = motorpwmpin;
         	save_motordirectionpin = motordirectionpin;
         	save_dir = dir;
-            save_dist = dist;
+            save_mag = convertDistanceToMag(dist);
             
             action_unit.setup_motor(motorpwmpin);
             action_unit.setup_direction(motordirectionpin, dir);
@@ -71,22 +71,22 @@ class motorsystem{
             }
             
             //distance control
-            if(sensing_unit.rotation_counter.checkDistanceMet(save_dist) ==true){
+            if(sensing_unit.rotation_counter.checkDistanceMet(save_mag) ==true){
             	
             	if(save_dir==1){
             		opposite_dir = 2;
-            		setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_dist);
+            		setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_mag);
             		save_dir =0;
             		control_unit.resetPID();
             	}else if (save_dir==2){
             		opposite_dir = 1;
-                    setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_dist);
+                    setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_mag);
                     save_dir=0;
                     control_unit.resetPID();
                     
             	}else if (save_dir==0){
 					if(stationaryCount ==10){
-						setup_action(save_motorpwmpin, save_motordirectionpin, opposite_dir,save_dist);
+						setup_action(save_motorpwmpin, save_motordirectionpin, opposite_dir,save_mag);
 						sensing_unit.rotation_counter.reset_distancecount();
 						stationaryCount =0;
 						control_unit.resetPID();

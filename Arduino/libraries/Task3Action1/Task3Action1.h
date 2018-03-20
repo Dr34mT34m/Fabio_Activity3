@@ -165,7 +165,9 @@ public:
         return current_pwm;
     }
     
-	
+    int convertDistanceToMag(int distance){
+        return whatever
+    }
 };
 
 #endif
