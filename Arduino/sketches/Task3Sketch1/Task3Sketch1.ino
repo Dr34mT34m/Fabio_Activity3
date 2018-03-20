@@ -29,10 +29,11 @@ void setup() {
   //int max_rpm_Right = 6000;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
-  int Magnets_passed_Right = 1000;  //used to determine distance
+  //int Magnets_passed_Right = 1000;  //used to determine distance
+  int distanceToTravelRight = 1000;
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
-  Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, Magnets_passed_Right);
+  Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distanceToTravelRight);
   Right_Wheel.setup_control(check_interval_Right, ref_kp_Right, ref_ki_Right, ref_kd_Right, ref_control_interval_time_Right/*, max_rpm_Right*/);
 
 
@@ -49,10 +50,10 @@ void setup() {
   //int max_rpm_Left = 6000;
   int dirLeft = FORWARDS; 
   int magnetsLeft = 49;
-  int Magnets_passed_Left = 1000;  //used to determine distance
-  
+  //int Magnets_passed_Left = 1000;  //used to determine distance
+  int distanceToTravelLeft = 1000;
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
-  Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, Magnets_passed_Left);
+  Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
   Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left/*, max_rpm_Left*/);
   
 
@@ -69,7 +70,8 @@ void loop() {
     Serial.println("");
   }*/
 
-  if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){     //drives car forward for set distance, stops then reverses for set distance
+  if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement())    //drives car forward for set distance, stops then reverses for set distance
+  {     //drives car forward for set distance, stops then reverses for set distance
     Right_Wheel.execute_system_task_distance_return();
     Serial.print(",");
     Left_Wheel.execute_system_task_distance_return(); 

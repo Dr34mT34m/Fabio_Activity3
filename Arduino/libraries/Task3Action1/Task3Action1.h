@@ -165,9 +165,77 @@ public:
         return current_pwm;
     }
     
-    int convertDistanceToMag(int distance){
-        //return whatever
+    int convertDistanceToMag(int distance)
+    {
+        int diameter = 55; // Diameter in mm
+        double circumfrance; // Calculated and used to calculate distance
+        double revolutions; // Used to work out how many magnets there are
+        double noOfMagnets; // The required number of magnets that must pass
+        
+        // Calculation stage
+        circumfrance = diameter*3.14; // This will give us the circumfrance of the wheel
+        revolutions = distance/circumfrance;
+        
+        noOfMagnets = 49*revolutions;
+        
+        
+        return noOfMagnets;
+        
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 };
 
 #endif
