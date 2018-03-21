@@ -26,10 +26,9 @@ void setup() {
   double ref_kd_Right = 10; 
   int ref_control_interval_time_Right = 150; 
   int check_interval_Right = 250;
-  int ref_speed_Right = 125;
+  int ref_speed_Right = 100;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
-  //int Magnets_passed_Right = 1000;  //used to determine distance
   int distanceToTravelRight = 2000;   //distance in mm
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
@@ -46,10 +45,9 @@ void setup() {
   double ref_kd_Left = 10;
   int ref_control_interval_time_Left = 150;
   int check_interval_Left = 250; 
-  int ref_speed_Left = 125;
+  int ref_speed_Left = 100;
   int dirLeft = FORWARDS; 
   int magnetsLeft = 49;
-  //int Magnets_passed_Left = 1000;  //used to determine distance
   int distanceToTravelLeft = 2000;
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
   Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
@@ -70,8 +68,8 @@ void loop() {
   }*/
 
   if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){     //drives car forward for set distance, stops then reverses for set distance
-    Right_Wheel.execute_system_task_distance_return(STOP_TIME_MS);
-    Serial.print(",");
+    Right_Wheel.execute_system_task_distance_return(STOP_TIME_MS);                        //car initially starts with a surge in speed when plugged into laptop and using plotter,as PID initially reads the zero's before the switch is turned on
+    Serial.print(",");                                                                    //ensure car is disconnected from laptop when demonstrating
     Left_Wheel.execute_system_task_distance_return(STOP_TIME_MS); 
     Serial.println("");
   }

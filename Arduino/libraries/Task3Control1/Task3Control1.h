@@ -22,32 +22,29 @@ class control{
         unsigned long check_interval;
         unsigned long last_check_time;
         basic_speed_PID PID_controller;
-        //int motor_max_rpm;
         int mapped_pwm;
 	public:
 		control()               //default constructor
 		{
 			check_interval = default_check_interval;
 			last_check_time = 0;
-            //motor_max_rpm = 0;
             mapped_pwm = 0;
 		}
     
     
-        control(unsigned long in_check_interval, double ref_kp, double ref_ki, double ref_kd, int ref_control_interval_time/*, int max_rpm*/)        //constructor with arguments
+        control(unsigned long in_check_interval, double ref_kp, double ref_ki, double ref_kd, int ref_control_interval_time)        //constructor with arguments
         {
-            setup_controller(in_check_interval, ref_kp, ref_ki, ref_kd, ref_control_interval_time/*, max_rpm*/);
+            setup_controller(in_check_interval, ref_kp, ref_ki, ref_kd, ref_control_interval_time);
             last_check_time=0;
             mapped_pwm = 0;
         }
     
     
-        void setup_controller(unsigned long in_check_interval, double ref_kp, double ref_ki, double ref_kd, int ref_control_interval_time/*, int max_rpm*/)     //set up with arguments
+        void setup_controller(unsigned long in_check_interval, double ref_kp, double ref_ki, double ref_kd, int ref_control_interval_time)     //set up with arguments
         {
             check_interval = in_check_interval;
             PID_controller.set_gainvals(ref_kp, ref_ki, ref_kd);
             PID_controller.set_ref_control_interval_ms(ref_control_interval_time);
-            //motor_max_rpm = max_rpm;
         }
     
     
@@ -87,25 +84,15 @@ class control{
 			else
 				return false;
 		}
-        //might need to create another function which can be called to update PID parameters seperately
     
     
         void updateCheckTime()              //stores the most recent check time
         {
             last_check_time = millis();
         }
-		
-    
-        /*int return_mapped_pwm(int speed_rpm){               //maps the reference speed to the range 0-255
-            mapped_pwm = map(speed_rpm, 0, motor_max_rpm, 0, 255);
-            return mapped_pwm;
-        }*/
     
     
         int return_PID_output(double target_speed, double current_speed){   //target speed = reference speed, current speed = current RPM
-            /*double mapped_target_speed = return_mapped_pwm(target_speed);
-            double mapped_current_speed = return_mapped_pwm(current_speed);
-            return PID_controller.ComputePID_output(mapped_target_speed, mapped_current_speed);*/
             return PID_controller.ComputePID_output(target_speed, current_speed);
         }
         

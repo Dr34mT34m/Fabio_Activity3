@@ -25,8 +25,6 @@ class motorsystem{
         control control_unit;
         boolean enabled;
         int save_ref_speed;
-        //int save_motorpwmpin;
-        //int save_motordirectionpin;
         int save_dir;
         double noOfMagnets;
         int stationaryCount;
@@ -38,8 +36,6 @@ class motorsystem{
     public:
         motorsystem(){      //default constructor
             save_ref_speed = 0;
-            //save_motorpwmpin = 0;
-            //save_motordirectionpin = 0;
             save_dir = 0;
             noOfMagnets = 0;
             stationaryCount = 0;
@@ -55,8 +51,6 @@ class motorsystem{
     
     
         void setup_action(int motorpwmpin, int motordirectionpin, int dir, int dist){  //set up of action unit
-        	//save_motorpwmpin = motorpwmpin;
-        	//save_motordirectionpin = motordirectionpin;
         	save_dir = dir;
             noOfMagnets = action_unit.convertDistanceToMag(dist);
             
@@ -79,19 +73,7 @@ class motorsystem{
     
     
         void execute_system_task_distance_return(unsigned long stop_time_ms){   //moves car forward for set distance, pauses then returns
-            //static int flag = 0;
             if(control_unit.isTimeToTakeMeasurementAndUpdate()){
-                /*if (flag == 0){
-                    control_unit.resetPID();
-                    sensing_unit.set_ref_speed(0);
-                    action_unit.switch_off_motor();
-                    sensing_unit.set_ref_speed(save_ref_speed);
-                    action_unit.set_direction(save_dir);
-                    flag++;
-                }*/
-                //if (sensing_unit.return_current_speed() == 0){
-                    //control_unit.resetPID();
-                //}
                 action_unit.operate_motor(control_unit.return_PID_output(sensing_unit.return_ref_speed(), sensing_unit.return_current_speed()));
             }
             
@@ -102,36 +84,25 @@ class motorsystem{
             		opposite_dir = 2;
                     sensing_unit.set_ref_speed(0);
                     action_unit.switch_off_motor();
-            		//setup_action(save_motorpwmpin, save_motordirectionpin, 0, noOfMagnets);
             		save_dir = 0;
-            		//control_unit.resetPID();
             	}
                 else if (save_dir==2){
             		opposite_dir = 1;
                     sensing_unit.set_ref_speed(0);
                     action_unit.switch_off_motor();
-                    //setup_action(save_motorpwmpin, save_motordirectionpin, 0,save_mag);
                     save_dir = 0;
-                    //control_unit.resetPID();
             	}
                 else if (save_dir==0){
 					if(stationaryCount >= (stop_time_ms/control_unit.getInterCheck())){
-                        //control_unit.resetPID();
                         sensing_unit.rotation_counter.reset_distancecount();
                         sensing_unit.set_ref_speed(save_ref_speed);
                         action_unit.set_direction(opposite_dir);
-						//setup_action(save_motorpwmpin, save_motordirectionpin, opposite_dir,save_mag);
 						stationaryCount = 0;
                         save_dir = action_unit.return_current_direction();
-						//control_unit.resetPID();
-						
-					}            	
-            	
+						control_unit.resetPID();
+					}
             		stationaryCount++;
             	}
-            	
-            	
-            	
             }
         }
     
