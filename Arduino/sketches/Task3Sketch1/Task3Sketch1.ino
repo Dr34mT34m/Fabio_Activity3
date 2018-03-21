@@ -21,15 +21,15 @@ void setup() {
   int motorpwmpinRight = 5;      
   int motordirectionpinRight = 7;  
   ArduinoInterruptNames interruptpinRight = 0;
-  double ref_kp_Right = 1;   //1, 0.4, 10
-  double ref_ki_Right = 0.4;  
-  double ref_kd_Right = 10; 
-  int ref_control_interval_time_Right = 150; 
+  double ref_kp_Right = 0.4;  //0.6      //1, 0.4, 10
+  double ref_ki_Right = 0.1;  //0.1
+  double ref_kd_Right = 40;   //50
+  int ref_control_interval_time_Right = 125; 
   int check_interval_Right = 250;
-  int ref_speed_Right = 100;
+  int ref_speed_Right = 150;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
-  int distanceToTravelRight = 2000;   //distance in mm
+  int distanceToTravelRight = 4000;   //distance in mm
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
   Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distanceToTravelRight);
@@ -40,22 +40,22 @@ void setup() {
   int motorpwmpinLeft = 6;
   int motordirectionpinLeft = 8;
   ArduinoInterruptNames interruptpinLeft = 1;
-  double ref_kp_Left = 1.1;     //1, 0.4, 10
-  double ref_ki_Left = 0.4;   
-  double ref_kd_Left = 10;
-  int ref_control_interval_time_Left = 150;
+  double ref_kp_Left = 0.4; //0.6        //1, 0.4, 10
+  double ref_ki_Left = 0.1; //0.1  
+  double ref_kd_Left = 40;  //50
+  int ref_control_interval_time_Left = 125;
   int check_interval_Left = 250; 
-  int ref_speed_Left = 100;
+  int ref_speed_Left = 150;
   int dirLeft = FORWARDS; 
   int magnetsLeft = 49;
-  int distanceToTravelLeft = 2000;
+  int distanceToTravelLeft = 4000;
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
   Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
   Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left);
   
 
   //Enable Serial Monitor
-  Serial.begin(9600);
+  Serial.begin(2000000);
   
 }
 
