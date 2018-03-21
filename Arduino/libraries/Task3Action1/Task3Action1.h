@@ -92,6 +92,10 @@ public:
         }
     }
     
+    void set_direction(int dir){
+        current_direction = dir;
+    }
+    
     
 	boolean isMotorEnabled(){       //checks if motor is enabled
 		return motorenabled;
@@ -165,16 +169,16 @@ public:
         return current_pwm;
     }
     
-    int convertDistanceToMag(int distance)
+    double convertDistanceToMag(double distance)
     {
-        int diameter = 55; // Diameter in mm
-        double circumfrance; // Calculated and used to calculate distance
-        double revolutions; // Used to work out how many magnets there are
-        double noOfMagnets; // The required number of magnets that must pass
+        int diameter = 57;      // Diameter in mm
+        double circumference;   // Calculated and used to calculate distance
+        double revolutions;     // Used to work out how many magnets there are
+        double noOfMagnets;     // The required number of magnets that must pass
         
         // Calculation stage
-        circumfrance = diameter*3.14; // This will give us the circumfrance of the wheel
-        revolutions = distance/circumfrance;
+        circumference = diameter*3.14;      // This will give us the circumfrance of the wheel
+        revolutions = distance/circumference;
         
         noOfMagnets = 49*revolutions;
         
@@ -184,58 +188,13 @@ public:
     }
     
     
+    int return_current_direction(){
+        return current_direction;
+    }
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
 };
 
 #endif

@@ -51,7 +51,7 @@ class control{
         }
     
     
-        int getInterCheck()             //returns set check interval
+        unsigned long getInterCheck()             //returns set check interval
         {
             return check_interval;
         }

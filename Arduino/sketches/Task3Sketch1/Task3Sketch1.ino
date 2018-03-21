@@ -3,6 +3,7 @@
 
 #define FORWARDS  1
 #define BACKWARDS 2
+#define STOP_TIME_MS 2000
 
 motorsystem Right_Wheel, Left_Wheel;
 
@@ -25,16 +26,15 @@ void setup() {
   double ref_kd_Right = 10; 
   int ref_control_interval_time_Right = 150; 
   int check_interval_Right = 250;
-  int ref_speed_Right = 175;
-  //int max_rpm_Right = 6000;
+  int ref_speed_Right = 125;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
   //int Magnets_passed_Right = 1000;  //used to determine distance
-  int distanceToTravelRight = 1000;
+  int distanceToTravelRight = 2000;   //distance in mm
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
   Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distanceToTravelRight);
-  Right_Wheel.setup_control(check_interval_Right, ref_kp_Right, ref_ki_Right, ref_kd_Right, ref_control_interval_time_Right/*, max_rpm_Right*/);
+  Right_Wheel.setup_control(check_interval_Right, ref_kp_Right, ref_ki_Right, ref_kd_Right, ref_control_interval_time_Right);
 
 
   //Setup Left Motor
@@ -45,16 +45,15 @@ void setup() {
   double ref_ki_Left = 0.4;   
   double ref_kd_Left = 10;
   int ref_control_interval_time_Left = 150;
-  int check_interval_Left = 250; //300
-  int ref_speed_Left = 175;
-  //int max_rpm_Left = 6000;
+  int check_interval_Left = 250; 
+  int ref_speed_Left = 125;
   int dirLeft = FORWARDS; 
   int magnetsLeft = 49;
   //int Magnets_passed_Left = 1000;  //used to determine distance
-  int distanceToTravelLeft = 1000;
+  int distanceToTravelLeft = 2000;
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
   Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
-  Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left/*, max_rpm_Left*/);
+  Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left);
   
 
   //Enable Serial Monitor
@@ -70,11 +69,10 @@ void loop() {
     Serial.println("");
   }*/
 
-  if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement())    //drives car forward for set distance, stops then reverses for set distance
-  {     //drives car forward for set distance, stops then reverses for set distance
-    Right_Wheel.execute_system_task_distance_return();
+  if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){     //drives car forward for set distance, stops then reverses for set distance
+    Right_Wheel.execute_system_task_distance_return(STOP_TIME_MS);
     Serial.print(",");
-    Left_Wheel.execute_system_task_distance_return(); 
+    Left_Wheel.execute_system_task_distance_return(STOP_TIME_MS); 
     Serial.println("");
   }
 }

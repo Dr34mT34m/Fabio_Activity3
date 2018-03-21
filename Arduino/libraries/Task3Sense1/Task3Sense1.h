@@ -23,8 +23,7 @@ class sense{
 	public:
 		InterruptSpeedMeasure rotation_counter;     //this object counts interrupts to measure speed
     
-    
-		sense(){                                    //default constructor
+        sense(){                                    //default constructor
             ref_speed = 0;
 		}
     
