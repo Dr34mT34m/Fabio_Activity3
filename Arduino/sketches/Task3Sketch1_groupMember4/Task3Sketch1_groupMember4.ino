@@ -1,11 +1,14 @@
 //will test
 #include <groupMember4.h>
+#include <UltrasoundSensor.h>
+
 
 #define FORWARDS  1
 #define BACKWARDS 2
 #define STOP_TIME_MS 2000
 
 motorsystem Right_Wheel, Left_Wheel;
+PingProximitySensor car_sensor;
 
 // this is used to count the interrupts
 
@@ -29,7 +32,7 @@ void setup() {
   int ref_speed_Right = 150;
   int dirRight = FORWARDS;
   int magnetsRight = 49;
-  int distanceToTravelRight = 4000;   //distance in mm
+  int distanceToTravelRight = 79;   //distance in mm //4000 //79MM = 90 degree turn
 
   Right_Wheel.setup_sensing(ref_speed_Right, interruptpinRight, magnetsRight);
   Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distanceToTravelRight);
@@ -48,29 +51,50 @@ void setup() {
   int ref_speed_Left = 150;
   int dirLeft = FORWARDS; 
   int magnetsLeft = 49;
-  int distanceToTravelLeft = 4000;
+  int distanceToTravelLeft = 79; //4000
+  
   Left_Wheel.setup_sensing(ref_speed_Left, interruptpinLeft, magnetsLeft);
   Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
   Left_Wheel.setup_control(check_interval_Left, ref_kp_Left, ref_ki_Left, ref_kd_Left, ref_control_interval_time_Left);
-  
 
+  // the following initializes the sensor (only needed once) 
+  int echosensorpin=9; 
+  int triggersensorpin=10;
+  car_sensor.setup_PingProximitySensor(echosensorpin, triggersensorpin); 
+  
   //Enable Serial Monitor
   Serial.begin(2000000);
   
 }
 
 void loop() {
-  /*if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){   //operates car in straight line at set speed
-    Right_Wheel.execute_system_task_straight_line();
-    Serial.print(",");
-    Left_Wheel.execute_system_task_straight_line(); 
-    Serial.println("");
-  }*/
+  int measured_distance;
+  car_sensor.SenseDistance(measured_distance);
 
+  Serial.println(measured_distance);
+  if((measured_distance>50) & (measured_distance!=0)){ 
+    if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){   //operates car in straight line at set speed
+      Right_Wheel.execute_system_task_straight_line();
+      Serial.print(",");
+      Left_Wheel.execute_system_task_straight_line(); 
+      Serial.println("");
+    }else{
+
+      
+    }
+  }
+  
+  /*
   if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){     //drives car forward for set distance, stops then reverses for set distance
     Right_Wheel.execute_system_task_distance_return(STOP_TIME_MS);                        //car initially starts with a surge in speed when plugged into laptop and using plotter,as PID initially reads the zero's before the switch is turned on
-    Serial.print(",");                                                                    //ensure car is disconnected from laptop when demonstrating
+    //Serial.print(",");                                                                    //ensure car is disconnected from laptop when demonstrating
     Left_Wheel.execute_system_task_distance_return(STOP_TIME_MS); 
-    Serial.println("");
-  }
+    //Serial.println("");
+    
+  }*/
 }
+
+void turn90(){
+
+}
+

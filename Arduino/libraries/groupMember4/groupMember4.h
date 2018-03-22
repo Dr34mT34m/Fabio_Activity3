@@ -20,6 +20,11 @@
 class groupMember4 : motorsystem{
 	//motorsystem motor;
     public:
+    
+    void avoid(){
+    
+    	
+    }
 
 };
     
