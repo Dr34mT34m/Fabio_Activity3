@@ -105,6 +105,10 @@ class motorsystem{
             	}
             }
         }
+        
+        void switchOff(){
+        	action_unit.switch_off_motor();
+        }
     
         bool isTimeToTakeMeasurement(){
             if (control_unit.isTimeToTakeMeasurement()){
