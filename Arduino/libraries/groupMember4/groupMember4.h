@@ -70,6 +70,9 @@ class groupMember4 : motorsystem{
   //distance measured by sensor
   int measured_distance;
   bool measure_sucessful;
+  
+  //flags for turning function
+  bool isTurning = false;
     
     void avoid_setup(){
     
@@ -151,12 +154,32 @@ class groupMember4 : motorsystem{
     		Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
     
     			if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){   //operates car in straight line at set speed
-      				Right_Wheel.switchOff();
-      				Left_Wheel.switchOff();
-    				}
+      				
+      				if(isTurning ==false){
+      					Right_Wheel.switchOff();
+      					Left_Wheel.switchOff();
+      					
+      					Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distanceToTravelRight);
+    					Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
+      				
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					Right_Wheel.execute_system_task_straight_line();
+      					isTurning = true;
+      					Serial.println("turning set to true");
+      				}
+      				
+      				if(Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)1000) == true){
+      				
+      					Right_Wheel.switchOff();
+      					isTurning = false;
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					Serial.println("turning met");
+            	
+            	}
  
   			}
   			
+  			}
   			
   		
     }else{

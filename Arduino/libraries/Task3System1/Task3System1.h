@@ -20,9 +20,6 @@
 class motorsystem{
 	
     protected:
-        sense sensing_unit;
-        action action_unit;
-        control control_unit;
         boolean enabled;
         int save_ref_speed;
         int save_dir;
@@ -34,6 +31,10 @@ class motorsystem{
             enabled = action_unit.AreAllEnabled();
         }
     public:
+    	sense sensing_unit;
+        action action_unit;
+        control control_unit;
+        
         motorsystem(){      //default constructor
             save_ref_speed = 0;
             save_dir = 0;
