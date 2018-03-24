@@ -39,7 +39,7 @@ class groupMember4 : motorsystem{
   int motorpwmpinLeft = 6;
   int motordirectionpinLeft = 8;
   ArduinoInterruptNames interruptpinLeft = 1;
-  double ref_kp_Left = 0.4; //0.6        //1, 0.4, 10
+  double ref_kp_Left = 0.6; //0.6        //1, 0.4, 10
   double ref_ki_Left = 0.1; //0.1  
   double ref_kd_Left = 40;  //50
   int ref_control_interval_time_Left = 125;
@@ -96,15 +96,33 @@ class groupMember4 : motorsystem{
     if (millis()%5000){
   		measure_sucessful = car_sensor.SenseDistance(measured_distance);
     }
+    
+    //if doing a 90 degree turn
+    
+    if(isTurning){
+    
+    	//check if we still want to keep turning
+    
+    	if(Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)30) == true){
+      				
+      					Right_Wheel.switchOff();
+      					Left_Wheel.switchOff();
+      					isTurning = false;
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					//Serial.println("turning met");
+            	
+            	}
+    
+    }else{
 
    if(measure_sucessful){
-  		Serial.println(measured_distance);
+  		//Serial.println(measured_distance);
   		
   		if((measured_distance>=100)){ //if distance is greater than 100 set speed to 150
-  			Serial.println("greater than 100");
+  			//Serial.println("greater than 100");
 
-    		int ref_speed_Right = 150;
-    		int ref_speed_Left = 150;
+    		int ref_speed_Right = 125;
+    		int ref_speed_Left = 125;
     
    			dirRight = FORWARDS;
 			dirLeft = FORWARDS;
@@ -121,10 +139,10 @@ class groupMember4 : motorsystem{
   			}
   		
   		if((measured_distance<100) && (measured_distance>=50)){ //if distance is between 100 and 50 set speed to 100
-  			Serial.println("100 - 50");
+  			//Serial.println("100 - 50");
 
-    		int ref_speed_Right = 50;
-    		int ref_speed_Left = 50;
+    		int ref_speed_Right = 100;
+    		int ref_speed_Left = 100;
     
    			dirRight = FORWARDS;
 			dirLeft = FORWARDS;
@@ -141,10 +159,10 @@ class groupMember4 : motorsystem{
   			}
   			
   		if((measured_distance<=50)){ //if less than 50 stop
-  			Serial.println("stop");
+  			//Serial.println("stop");
 
-    		int ref_speed_Right = 100;
-    		int ref_speed_Left = 100;
+    		int ref_speed_Right = 200;
+    		int ref_speed_Left = 200;
     
    			dirRight = FORWARDS;
 			dirLeft = FORWARDS;
@@ -159,23 +177,16 @@ class groupMember4 : motorsystem{
       					Right_Wheel.switchOff();
       					Left_Wheel.switchOff();
       					
-      					Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, dirRight, distanceToTravelRight);
-    					Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, dirLeft, distanceToTravelLeft);
+      					Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, FORWARDS, distanceToTravelRight);
+    					Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, BACKWARDS, distanceToTravelLeft);
       				
       					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					
       					Right_Wheel.execute_system_task_straight_line();
+      					Left_Wheel.execute_system_task_straight_line();
       					isTurning = true;
-      					Serial.println("turning set to true");
+      					//Serial.println("turning set to true");
       				}
-      				
-      				if(Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)1000) == true){
-      				
-      					Right_Wheel.switchOff();
-      					isTurning = false;
-      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
-      					Serial.println("turning met");
-            	
-            	}
  
   			}
   			
@@ -184,10 +195,10 @@ class groupMember4 : motorsystem{
   		
     }else{
     
-    	Serial.println("ping failed");
+    	//Serial.println("ping failed");
     	
-    	int ref_speed_Right = 150;
-    		int ref_speed_Left = 150;
+    	int ref_speed_Right = 125;
+    		int ref_speed_Left = 125;
     
    			dirRight = FORWARDS;
 			dirLeft = FORWARDS;
@@ -203,7 +214,7 @@ class groupMember4 : motorsystem{
     }
     
 	}
-	
+	}
 	
 };
     
