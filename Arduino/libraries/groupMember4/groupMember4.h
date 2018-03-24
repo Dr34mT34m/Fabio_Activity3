@@ -70,9 +70,14 @@ class groupMember4 : motorsystem{
   //distance measured by sensor
   int measured_distance;
   bool measure_sucessful;
+  int far_distance = 50;
   
   //flags for turning function
   bool isTurning = false;
+  int chkStatus =0;
+  	//0 clockwise
+  	//1 anticlockwise
+  	//2 return
     
     void avoid_setup(){
     
@@ -103,12 +108,38 @@ class groupMember4 : motorsystem{
     
     	//check if we still want to keep turning
     
-    	if(Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)30) == true){
+    	//90 deg turn
+    	if(chkStatus ==0 && (Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)22) == true)){
       				
       					Right_Wheel.switchOff();
       					Left_Wheel.switchOff();
       					isTurning = false;
       					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					chkStatus =1;
+      					//Serial.println("turning met");
+            	
+            	}
+            	
+        //180 deg turn
+        if(chkStatus ==1 && (Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)44) == true)){
+      				
+      					Right_Wheel.switchOff();
+      					Left_Wheel.switchOff();
+      					isTurning = false;
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					chkStatus =2;
+      					//Serial.println("turning met");
+            	
+            	}
+            	
+		 //180 deg turn
+         if(chkStatus ==2 && (Right_Wheel.sensing_unit.rotation_counter.checkDistanceMet((long int)22) == true)){
+      				
+      					Right_Wheel.switchOff();
+      					Left_Wheel.switchOff();
+      					isTurning = false;
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					chkStatus =0;
       					//Serial.println("turning met");
             	
             	}
@@ -158,7 +189,7 @@ class groupMember4 : motorsystem{
  
   			}
   			
-  		if((measured_distance<=50)){ //if less than 50 stop
+  		if((measured_distance<=far_distance)){ //if less than 50 stop
   			//Serial.println("stop");
 
     		int ref_speed_Right = 200;
@@ -173,7 +204,25 @@ class groupMember4 : motorsystem{
     
     			if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){   //operates car in straight line at set speed
       				
-      				if(isTurning ==false){
+      				if(isTurning ==false  && (chkStatus ==0)){
+      					//do clockwise check
+      					Right_Wheel.switchOff();
+      					Left_Wheel.switchOff();
+      					
+      					Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, BACKWARDS, distanceToTravelRight);
+    					Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, FORWARDS, distanceToTravelLeft);
+      				
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					
+      					Right_Wheel.execute_system_task_straight_line();
+      					Left_Wheel.execute_system_task_straight_line();
+      					isTurning = true;
+      					//chkStatus =1;
+      					//Serial.println("turning set to true");
+      				}
+      				
+      				if(isTurning ==false  && (chkStatus ==1)){
+      					//do clockwise check
       					Right_Wheel.switchOff();
       					Left_Wheel.switchOff();
       					
@@ -185,6 +234,24 @@ class groupMember4 : motorsystem{
       					Right_Wheel.execute_system_task_straight_line();
       					Left_Wheel.execute_system_task_straight_line();
       					isTurning = true;
+      					//chkStatus =2;
+      					//Serial.println("turning set to true");
+      				}
+      				
+      				if(isTurning ==false  && (chkStatus ==2)){
+      					//do clockwise check
+      					Right_Wheel.switchOff();
+      					Left_Wheel.switchOff();
+      					
+      					Right_Wheel.setup_action(motorpwmpinRight, motordirectionpinRight, FORWARDS, distanceToTravelRight);
+    					Left_Wheel.setup_action(motorpwmpinLeft, motordirectionpinLeft, BACKWARDS, distanceToTravelLeft);
+      				
+      					Right_Wheel.sensing_unit.rotation_counter.reset_distancecount();
+      					
+      					Right_Wheel.execute_system_task_straight_line();
+      					Left_Wheel.execute_system_task_straight_line();
+      					isTurning = true;
+      					//chkStatus =0;
       					//Serial.println("turning set to true");
       				}
  
