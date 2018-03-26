@@ -39,7 +39,7 @@ class groupMember4 : motorsystem{
   int motorpwmpinLeft = 6;
   int motordirectionpinLeft = 8;
   ArduinoInterruptNames interruptpinLeft = 1;
-  double ref_kp_Left = 0.6; //0.6        //1, 0.4, 10
+  double ref_kp_Left = 0.4; //0.6        //1, 0.4, 10
   double ref_ki_Left = 0.1; //0.1  
   double ref_kd_Left = 40;  //50
   int ref_control_interval_time_Left = 125;
@@ -98,7 +98,7 @@ class groupMember4 : motorsystem{
     
     void avoid_update(){
     
-    if (millis()%5000){
+    if (millis()%1000){
   		measure_sucessful = car_sensor.SenseDistance(measured_distance);
     }
     
