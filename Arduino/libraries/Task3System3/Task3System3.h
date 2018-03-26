@@ -48,6 +48,8 @@ class circular_operation: public motorsystem{
             circumferenceL = 2*3.14*radiusL;
             speedR = (speed*(radius-50))/radius;
             speedL = (speed*(radius+50))/radius;
+            speedR = speedR*1.02;   //2% increase to account for lateral friction
+            speedL = speedL*0.98;   //2% decrease to account for lateral friction
             lap = laps;
         }
         else if (circle_number % 2 == 1){
@@ -58,6 +60,8 @@ class circular_operation: public motorsystem{
             circumferenceL = 2*3.14*radiusL;
             speedR = (speed2*(radius2-50))/radius2;
             speedL = (speed2*(radius2+50))/radius2;
+            speedR = speedR*1.02;   //2% increase to account for lateral friction
+            speedL = speedL*0.98;   //2% decrease to account for lateral friction
             lap = laps2;
         }
         
@@ -107,7 +111,7 @@ class circular_operation: public motorsystem{
                             stationaryCount = 0;
                             flag = 0;
                             save_wheel_side = 2;
-                            lap_counter = 0;
+                            lap_counter = 1;
                             direction_complete_counter++;
                             circle_number++;
                             control_unit.resetPID();
@@ -160,7 +164,7 @@ class circular_operation: public motorsystem{
                             stationaryCount = 0;
                             flag = 0;
                             save_wheel_side = 1;
-                            lap_counter = 0;
+                            lap_counter = 1;
                             direction_complete_counter++;
                             circle_number++;
                             control_unit.resetPID();

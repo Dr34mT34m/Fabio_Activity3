@@ -55,9 +55,9 @@ void setup() {
 
 void loop() {
   if (Right_Wheel.isTimeToTakeMeasurement() && Left_Wheel.isTimeToTakeMeasurement()){     //drives car in a circular motion clockwise, then anti-clockwise
-    Right_Wheel.execute_system_task_closed_trajectory(70, 70, 500, 250);                       
+    Right_Wheel.execute_system_task_closed_trajectory(60, 60, 600, 250);                       
     Serial.print(",");                                                                   
-    Left_Wheel.execute_system_task_closed_trajectory(70, 70, 500, 250);  
+    Left_Wheel.execute_system_task_closed_trajectory(60, 60, 600, 250);  
     Serial.println("");
   }
 }

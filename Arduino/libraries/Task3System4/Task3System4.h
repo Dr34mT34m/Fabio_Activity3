@@ -49,6 +49,8 @@ class closed_trajectory: public circular_operation{
                 circumferenceL = 2*3.14*radiusL;
                 speedR = (turn_speed*(radius+50))/radius;
                 speedL = (turn_speed*(radius-50))/radius;
+                speedR = speedR*1.02;   //2% increase to account for lateral friction
+                speedL = speedL*0.98;   //2% decrease to account for lateral friction
                     
                 if (save_wheel_side == 1){
                     sensing_unit.set_ref_speed((int)speedR);
